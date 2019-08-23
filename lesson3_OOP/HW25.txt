@@ -1,0 +1,58 @@
+1. На основе кода из 01_Counter.php написать класс, который может создать объект только один раз. При последующих вызовах getInstance() будет возвращать один и тот же объект. Как результат - должны получиться следующие свойства:
+
+class StaticTest
+{
+	protected static $counter;
+	
+	private function __construct() {
+		var_dump(StaticTest::$counter);
+	}
+
+	public static function getInstance() {
+		//...
+	}
+}
+
+$st1 = StaticTest::getInstance();
+$st1->data = 4;
+
+$st2 = StaticTest::getInstance();
+var_dump($st2->data);//должен вывести 4
+
+$st3 = StaticTest::getInstance();
+$st3->data = 8;
+var_dump($st1->data);//Должно вывести 8, $st1 и $st3 - один и тот же объект
+
+
+2. Сделать класс с магическими сеттерами и геттерами
+
+class MagicArray
+{
+	protected $_data = [];
+}
+
+$ma = new MagicArray();
+
+$ma->setColor('green');
+$ma->setWeight(10);
+echo $ma->getColor();//Выведет green
+echo $ma->getTaste();//Выведет null
+
+echo $ma->hasColor();//Выведет true
+echo $ma->hasTaste();//Выведет false
+
+//Особый метод, выводит информацию о всех данных
+print_r($ma->getData());
+//Выведет:
+/*
+[
+	'color' => 'green',
+	'weight' => 10
+]
+*/
+
+
+3. Написать автолоадер, который будет подгружать класс из определенной папки в зависимости от неймспейса класса. Например:
+класс \Libs\Counter будет искать в classes/Libs/Counter.php
+\Libs\Namespace1\Namespace2\Counter - classes/Libs/Namespace1/Namespace2/Counter.php
+
