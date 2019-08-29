@@ -1,0 +1,56 @@
+1. Есть класс Page с полями text и padding. padding у страницы может быть либо left, либо right. У обычной страницы в книге он будет меняться: на четных отступ будет справа, на нечетных - слева.
+Нужно написать фабрику, которая будет создавать страницы с отступом то справа, то слева, по очереди:
+
+class Page
+{
+	public $text;
+	public $padding;
+}
+
+class PageFactory
+{
+	//...
+}
+
+$pageFactory = new PageFactory();
+
+$page1 = $pageFactory->create();
+echo $page1->padding;//Выводит right
+
+$page2 = $pageFactory->create();
+echo $page2->padding;//Выводит left
+
+$page3 = $pageFactory->create();
+echo $page3->padding;//Выводит right
+
+
+
+2. Создать еще одну модель BookModel, по аналогии с AuthorModel. AbstractModel пока что можно оставить как есть. Новая модель должна будет работать с новой таблицей books, у нее должен быть рабочий функционал загрузки и записи:
+
+
+$model1 = new BookModel(Connection::getInstance());
+$model1->name = 'British Encyclopedia vol.1';
+$model1->author_id = 25;
+$model1->save();
+// В этот момент появляется запись в БД
+
+$mode2 = new BookModel(Connection::getInstance());
+$mode2->load(1);
+$mode2->name .= '(ed.5)';
+$mode2->save();
+//В БД сохраняется новое значение
+
+
+
+3. Доработать AbstractModel, используя заготовку в Model.php. Нужно чтобы AbstractModel могла делать и save() и load() без участия конкретной модели. В AuthorModel и BookModel должны будут остаться только названя таблиц:
+
+protected $tableName = 'authors';
+
+Вместо
+
+protected function fillData($record) {
+	$this->id = $record[0]['id'];
+	$this->name = $record[0]['name'];
+}
+
+load() в абстрактной модели будет записывать данные сразу в $this->data
