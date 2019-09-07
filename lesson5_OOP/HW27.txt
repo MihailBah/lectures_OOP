@@ -1,0 +1,33 @@
+1. Сделать MyList из 2-го занятия по ООП итератором. Нужно чтобы по нему можно было пройти циклом foreach
+
+$myList = new MyList();
+
+$myList->append(1);
+$myList->append(2);
+$myList->append(3);
+
+foreach ($myList as $item) {
+	var_dump($item);//выводит 1 2 3
+}
+
+
+2. В обозревателе, сделать чтобы каждый из подписчиков реагировал 1 раз, и становился недоступным.
+Т.е. код должен работать так:
+Поступает сигнал 'fire'. Сигнал поступает сначала в fireDepartment1, fireDepartment1 обрабатывает событие (отправляет пожарную машину), и в fireDepartment2 событие уже не приходит.
+И наоборот, если fireDepartment1 не смог обработать событие (нет свободных машин) - сигнал отправляется дальше в fireDepartment2
+
+
+3. Сделать чтобы модель из 4-го занятия по ООП работала с EAV-структурой.
+Создать класс ProductModel (Он уже может наследоваться от другой абстрактной модели), применить дамп из файла eav.sql. Модель должна отрабатывать так:
+
+$productModel = new ProductModel();
+$productModel->load(1);//подгрузилась информация для T-shirt
+echo $productModel->getWeight();//выводит 150
+echo $productModel->getColor();//выводит blue
+echo $productModel->getRam();//выводит null, у этого продукта нет такого атрибута
+
+Аналогично для ноутбука:
+
+$productModel = new ProductModel();
+$productModel->load(2);//подгрузились данные ноута
+echo $productModel->getRam();//выводит 4G
